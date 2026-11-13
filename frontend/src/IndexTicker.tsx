@@ -18,7 +18,19 @@ export default function IndexTicker({account,onPick,onStatus}:{account:string,on
     const fallback=account.startsWith('upstox:')?{exchange:index.exchange,symbol:({ 'NIFTY 50':'NIFTY','BANK NIFTY':'BANKNIFTY'} as Record<string,string>)[index.name]||index.name,segment:'IDX'}:undefined
     return [index.name,match?{exchange:match.exchange,symbol:match.symbol,segment:match.segment}:fallback] as const
    }catch{return [index.name,account.startsWith('upstox:')?{exchange:index.exchange,symbol:({'NIFTY 50':'NIFTY','BANK NIFTY':'BANKNIFTY'} as Record<string,string>)[index.name]||index.name,segment:'IDX'}:undefined] as const}
-  })).then(entries=>{if(active)setMapping(Object.fromEntries(entries.filter(x=>x[1])))})
+  })).then(entries => {
+  if (!active) return;
+
+  const resolved: Record<string, InstrumentId> = {};
+
+  for (const [name, instrument] of entries) {
+    if (instrument !== undefined) {
+      resolved[name] = instrument;
+    }
+  }
+
+  setMapping(resolved);
+})
   return ()=>{active=false}
  },[account])
  const keys=useMemo(()=>Object.values(mapping),[mapping])

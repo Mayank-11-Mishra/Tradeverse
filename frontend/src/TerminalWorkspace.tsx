@@ -92,7 +92,11 @@ function ChartWindow({account,item,onConfig,onOrder}:{account:string,item:Pane,o
   if(e.event==='error')setFeedError(e.message||'Broker stream failed; inspect feed status in drawer')
   if(e.event==='tick')setFeedError('')
   if(e.key&&(e.key.exchange!==exchange||e.key.symbol!==symbol||e.key.segment!==segment))return
-  if(e.event==='tick'){setQuote(p=>quoteFromTick(e.data,p))}
+  if (e.event === 'tick') {
+  setQuote(previous =>
+    quoteFromTick(e.data, previous ?? undefined)
+  );
+}
   if(e.event==='candle'){
    const c=asCandle(e.data);if(!c)return
    if(e.partial){setPartial(c);setLiveMinutes(old=>{const copy=new Map(old.map(m=>[Date.parse(m.ts),m]));copy.set(Date.parse(c.ts),c);return [...copy.values()].sort((a,b)=>Date.parse(a.ts)-Date.parse(b.ts)).slice(-240)})}

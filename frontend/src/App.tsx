@@ -5,7 +5,6 @@ import TerminalWorkspace from './TerminalWorkspace'
 import {api,post,q,token,type Account,type Candle,type Strategy,type EventRow} from './api'
 
 type Screen='terminal'|'brokers'|'strategies'|'backtest'|'options'|'portfolio'|'activity'|'settings'
-type Instrument={exchange:string,symbol:string,segment:string,broker_token?:string,name?:string}
 const BROKERS=['groww','zerodha','upstox','fyers','flattrade','finvasia']
 const MENU:{id:Screen,label:string,icon:ReactNode}[]=[
  {id:'terminal',label:'Trading terminal',icon:<BarChart3 size={18}/>},
