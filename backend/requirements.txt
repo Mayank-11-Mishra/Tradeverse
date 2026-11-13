@@ -17,5 +17,11 @@ httpx>=0.27
 # Tests (core suite uses stdlib unittest; pytest optional)
 pytest>=8
 
-# The hosted app's real-time stream connectors require these broker SDKs.
--r requirements-brokers.txt
+# Broker SDKs used by the live-stream and account adapters.
+# Keep these directly in this file so Railway builds do not require a
+# secondary requirements file in the container build context.
+# Flattrade and Finvasia use the httpx + websockets packages above.
+kiteconnect>=5.0
+upstox-python-sdk
+fyers-apiv3
+growwapi>=1.5.0

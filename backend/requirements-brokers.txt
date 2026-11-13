@@ -1,7 +1,0 @@
-# Real broker WebSocket SDKs used by app/brokers/streams.py.
-# Installed on Railway alongside backend/requirements.txt.
-# Broker SDK behavior/permissions still require account-specific validation.
-kiteconnect>=5.0
-upstox-python-sdk
-fyers-apiv3
-growwapi>=1.5.0
