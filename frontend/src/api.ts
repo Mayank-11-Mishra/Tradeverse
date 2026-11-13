@@ -1,4 +1,7 @@
-export const ROOT='http://127.0.0.1:8000'
+export const ROOT = (
+  import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.DEV ? 'http://127.0.0.1:8000' : '')
+).replace(/\/$/, '')
 export const token=()=>localStorage.getItem('personal_algo_app_token')||''
 export async function api<T=any>(path:string,init:RequestInit={}):Promise<T>{
   const res=await fetch(`${ROOT}/api${path}`,{...init,headers:{'Content-Type':'application/json',...(token()?{'X-Local-Token':token()}:{}),...(init.headers||{})}})
