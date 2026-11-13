@@ -2,7 +2,8 @@
 No synthetic ticks: a missing price is ignored. Queue is bounded to avoid unbounded RAM.
 """
 from __future__ import annotations
-import asyncio,json,threading
+import asyncio,json,threading,os
+from pathlib import Path
 from contextlib import suppress
 from datetime import datetime,timezone
 from .base import Tick,InstrumentKey,BrokerError
@@ -112,27 +113,80 @@ async def zerodha_stream(adapter,keys):
         return kws
     async for tick in _sdk_stream(start,lambda x:x.close()):yield tick
 
+def _fyers_worker_python():
+    """Separate Python interpreter, so FYERS's aiohttp pin cannot break Groww."""
+    override=os.environ.get('FYERS_WORKER_PYTHON','').strip()
+    if override:
+        path=Path(override)
+    else:
+        base=Path(__file__).resolve().parents[2]
+        venv=base/'.fyers-venv'
+        path=venv/('Scripts/python.exe' if os.name=='nt' else 'bin/python')
+    if not path.is_file():
+        raise BrokerError('FYERS live streaming needs its isolated SDK interpreter: '
+            'configure FYERS_WORKER_PYTHON or create backend/.fyers-venv '
+            'and install requirements-fyers-worker.txt')
+    return str(path)
+
 async def fyers_stream(adapter,keys):
-    try:from fyers_apiv3.FyersWebsocket import data_ws
-    except ImportError as exc:raise BrokerError('pip install fyers-apiv3 for FYERS live stream') from exc
+    """Stream ticks from an isolated FYERS SDK subprocess through newline-delimited JSON.
+
+    REST login, history and orders remain on the main FastAPI interpreter.
+    Credentials are sent on the private subprocess stdin; they are never CLI args
+    or serialized to frontend/logs. A dead child is restarted with backoff.
+    """
     symbols={k.symbol:k for k in keys}
-    def start(emit):
-        def onmessage(m):
-            if not isinstance(m,dict):return
-            key=symbols.get(m.get('symbol'))
-            if key:
-                emit(_tick(key,m.get('ltp'),adapter.broker_id,m.get('last_traded_time'),
-                    m.get('bid_price1'),m.get('ask_price1'),m.get('vol_traded_today'),m.get('oi'),m.get('prev_close_price')))
-        sock=None
-        def onopen():
-            sock.subscribe(symbols=list(symbols),data_type='SymbolUpdate')
-            sock.keep_running()
-        sock=data_ws.FyersDataSocket(access_token=f'{adapter.client_id}:{adapter.access_token}',log_path='',
-            litemode=False,write_to_file=False,reconnect=True,on_connect=onopen,
-            on_message=onmessage,on_error=lambda *a:None,on_close=lambda *a:None)
-        threading.Thread(target=sock.connect,daemon=True).start()
-        return sock
-    async for tick in _sdk_stream(start,lambda x:x.close_connection()):yield tick
+    if not symbols:return
+    worker_python=_fyers_worker_python()
+    worker_script=Path(__file__).resolve().with_name('fyers_feed_worker.py')
+    while adapter.access_token:
+        proc=None
+        try:
+            proc=await asyncio.create_subprocess_exec(
+                worker_python, '-u', str(worker_script),
+                stdin=asyncio.subprocess.PIPE,stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.DEVNULL,
+            )
+            # Never pass tokens in command-line arguments or log them.
+            payload={'access_token':f'{adapter.client_id}:{adapter.access_token}',
+                     'symbols':list(symbols)}
+            proc.stdin.write((json.dumps(payload)+'\n').encode('utf-8'))
+            await proc.stdin.drain()
+            proc.stdin.close()
+            while True:
+                raw=await proc.stdout.readline()
+                if not raw:break
+                try:message=json.loads(raw)
+                except (ValueError,UnicodeDecodeError):continue
+                if not isinstance(message,dict):continue
+                if message.get('type')=='error':
+                    raise BrokerError('FYERS live stream error in isolated SDK worker')
+                if message.get('type')!='tick':continue
+                m=message.get('data')
+                if not isinstance(m,dict):continue
+                key=symbols.get(m.get('symbol'))
+                if key:
+                    tick=_tick(key,m.get('ltp'),adapter.broker_id,m.get('last_traded_time'),
+                        m.get('bid_price1'),m.get('ask_price1'),m.get('vol_traded_today'),
+                        m.get('oi'),m.get('prev_close_price'))
+                    if tick:yield tick
+            if proc.returncode is None:
+                await proc.wait()
+            raise BrokerError('FYERS live feed process ended')
+        except asyncio.CancelledError:
+            raise
+        except BrokerError:
+            # The account-level feed manager reports/retries broker errors.
+            raise
+        except Exception as exc:
+            raise BrokerError('Unable to start isolated FYERS feed worker') from exc
+        finally:
+            if proc and proc.returncode is None:
+                proc.terminate()
+                try:await asyncio.wait_for(proc.wait(),timeout=5)
+                except asyncio.TimeoutError:
+                    proc.kill()
+                    await proc.wait()
 
 def parse_upstox_message(msg,token_map):
     """SDK already decodes Protobuf to structured records; do not parse raw frames as JSON."""

@@ -1,0 +1,30 @@
+# TradeVerse broker connection dependencies.
+# Install with: python -m pip install -r backend/requirements.txt
+# requirements.txt includes this file and also includes the shared HTTP/WebSocket libraries.
+# Each adapter uses its own official broker endpoints, authentication and instrument mappings.
+
+# Zerodha Kite Connect: SDK for quotes, orders and live tick streaming.
+kiteconnect>=5.0
+
+# Upstox: official Python SDK for its Protobuf market-data feed.
+upstox-python-sdk
+
+# FYERS: API v3 SDK for market-data WebSocket.
+# FYERS SDK isolated in requirements-fyers-worker.txt (not installed here)
+
+# Groww: SDK for market-data subscriptions and historical data.
+growwapi>=1.5.0
+
+# Flattrade Pi: custom adapter in app/brokers/flattrade.py / noren.py.
+# Uses direct HTTPS requests (httpx) and WebSocket frames (websockets).
+# No additional Flattrade-specific pip package is imported or required.
+# Shared dependencies installed by backend/requirements.txt: httpx>=0.27, websockets>=12.
+
+# Finvasia Shoonya: custom OAuth and Noren-family adapter in
+# app/brokers/finvasia.py / noren.py / oauth.py.
+# Uses direct HTTPS requests (httpx) and WebSocket frames (websockets).
+# The optional Shoonya SDK is NOT imported by this implementation.
+# Shared dependencies installed by backend/requirements.txt: httpx>=0.27, websockets>=12.
+
+# A listed dependency or adapter does not establish that broker login, streaming,
+# order placement or exchange permissions have been verified with a live account.

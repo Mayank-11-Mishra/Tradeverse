@@ -1,0 +1,3 @@
+# Isolated FYERS market stream process; do NOT install into the main backend venv.
+# FYERS and Groww SDKs currently require mutually exclusive aiohttp versions.
+fyers-apiv3==3.2.1

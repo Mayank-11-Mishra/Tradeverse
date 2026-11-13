@@ -9,17 +9,22 @@ $VenvPython=Join-Path $Root '.venv\Scripts\python.exe'
 & $VenvPython -m pip install --upgrade pip
 & $VenvPython -m pip install -r backend\requirements.txt
 if($LASTEXITCODE -ne 0){throw 'Backend requirements failed to install'}
-Write-Host 'Installing Groww SDK separately (Groww streaming and historical data)...' -ForegroundColor Cyan
-& $VenvPython -m pip install --upgrade 'growwapi>=1.5.0'
-if($LASTEXITCODE -ne 0){
-    Write-Warning 'Groww SDK could not be installed. API-key login can use the Groww REST flow, but history/feed needs growwapi. Run: .\.venv\Scripts\python.exe -m pip install --upgrade growwapi'
-} else {
-    & $VenvPython -m pip show growwapi
-    if($LASTEXITCODE -ne 0){Write-Warning 'Groww SDK verification failed. Check the current .venv environment.'}
+# FYERS and Groww require incompatible aiohttp versions, so FYERS gets its own venv.
+$FyersVenv=Join-Path $Root 'backend\.fyers-venv'
+if(-not(Test-Path $FyersVenv)){
+    & $VenvPython -m venv $FyersVenv
+    if($LASTEXITCODE -ne 0){Write-Warning 'Could not create isolated FYERS environment'}
 }
-Write-Host 'Installing other optional broker SDKs...' -ForegroundColor Cyan
-& $VenvPython -m pip install -r backend\requirements-brokers.txt
-if($LASTEXITCODE -ne 0){Write-Warning 'At least one other optional broker SDK failed to install; see README.'}
+$FyersPython=Join-Path $FyersVenv 'Scripts\python.exe'
+if(Test-Path $FyersPython){
+    Write-Host 'Installing FYERS live-stream SDK in its isolated Python environment...' -ForegroundColor Cyan
+    & $FyersPython -m pip install -r backend\requirements-fyers-worker.txt
+    if($LASTEXITCODE -ne 0){
+        Write-Warning 'FYERS SDK install failed. FYERS REST login/orders still work; streaming needs its SDK.'
+    }
+}
+& $VenvPython -m pip check
+if($LASTEXITCODE -ne 0){throw 'Main Python dependency conflict detected'}
 if(-not(Get-Command npm -ErrorAction SilentlyContinue)){throw 'Node.js 20+ and npm must be installed.'}
 Push-Location frontend
 try{npm install --no-audit --no-fund; if($LASTEXITCODE -ne 0){throw 'Frontend npm installation failed'}}finally{Pop-Location}
