@@ -1,0 +1,13 @@
+.venv/
+node_modules/
+frontend/dist/
+*.pyc
+__pycache__/
+.pytest_cache/
+.env
+.env.*
+!.env.example
+data/*.db
+data/*.db-*
+logs/*
+!logs/.gitkeep

@@ -1,0 +1,1878 @@
+[
+ {
+  "category": "Average",
+  "name": "Average - Adaptive"
+ },
+ {
+  "category": "Average",
+  "name": "Average - Chande Vidya - Old"
+ },
+ {
+  "category": "Average",
+  "name": "Average - Chande Vidya (Variable)"
+ },
+ {
+  "category": "Average",
+  "name": "Average - Exponential"
+ },
+ {
+  "category": "Average",
+  "name": "Average - Least Square"
+ },
+ {
+  "category": "Average",
+  "name": "Average - Segment"
+ },
+ {
+  "category": "Average",
+  "name": "Average - Simple"
+ },
+ {
+  "category": "Average",
+  "name": "Average - Triangular"
+ },
+ {
+  "category": "Average",
+  "name": "Average - Volatility"
+ },
+ {
+  "category": "Average",
+  "name": "Average - Volume Adjusted"
+ },
+ {
+  "category": "Average",
+  "name": "Average - Weighted"
+ },
+ {
+  "category": "Average",
+  "name": "Average - Wilder Smoothening"
+ },
+ {
+  "category": "Average",
+  "name": "Average - Zero Lag Exponential"
+ },
+ {
+  "category": "Average",
+  "name": "Average"
+ },
+ {
+  "category": "Average",
+  "name": "EquiVol Avg"
+ },
+ {
+  "category": "Average",
+  "name": "EquiVol Filter"
+ },
+ {
+  "category": "Averages Based",
+  "name": "Average - Hull"
+ },
+ {
+  "category": "Averages Based",
+  "name": "Average - with Shift"
+ },
+ {
+  "category": "Averages Based",
+  "name": "Averages - Short & Med & Long term"
+ },
+ {
+  "category": "Averages Based",
+  "name": "Averages - Short & Medium Term"
+ },
+ {
+  "category": "Averages Based",
+  "name": "Averages-High & Low"
+ },
+ {
+  "category": "Averages Based",
+  "name": "Double Exponential Moving Average"
+ },
+ {
+  "category": "Averages Based",
+  "name": "Double Moving Average"
+ },
+ {
+  "category": "Averages Based",
+  "name": "Expected Cross Over Level - EMA"
+ },
+ {
+  "category": "Averages Based",
+  "name": "Expected Cross Over Level - SMA"
+ },
+ {
+  "category": "Averages Based",
+  "name": "T3 Indicator"
+ },
+ {
+  "category": "Averages Based",
+  "name": "Triple Exponential Moving Average"
+ },
+ {
+  "category": "Band",
+  "name": "ATR Band"
+ },
+ {
+  "category": "Band",
+  "name": "Average Band"
+ },
+ {
+  "category": "Band",
+  "name": "Bollinger Band Width"
+ },
+ {
+  "category": "Band",
+  "name": "Bollinger Band"
+ },
+ {
+  "category": "Band",
+  "name": "Envelope Percent Extended"
+ },
+ {
+  "category": "Band",
+  "name": "Envelope Percent"
+ },
+ {
+  "category": "Band",
+  "name": "Fibonacci Bollinger Band"
+ },
+ {
+  "category": "Band",
+  "name": "High Low Band"
+ },
+ {
+  "category": "Band",
+  "name": "Keltner Channel Old"
+ },
+ {
+  "category": "Band",
+  "name": "Keltner Channel"
+ },
+ {
+  "category": "Band",
+  "name": "Linear Regression Channel"
+ },
+ {
+  "category": "Band",
+  "name": "Parabolic Stop And Reverse - Old"
+ },
+ {
+  "category": "Band",
+  "name": "Parabolic Stop And Reverse Diff"
+ },
+ {
+  "category": "Band",
+  "name": "Parabolic Stop And Reverse"
+ },
+ {
+  "category": "Band",
+  "name": "Percentage Band"
+ },
+ {
+  "category": "Band",
+  "name": "Price Channel"
+ },
+ {
+  "category": "Band",
+  "name": "Projection Bands"
+ },
+ {
+  "category": "Band",
+  "name": "Standard Error Band"
+ },
+ {
+  "category": "Conditions",
+  "name": "Condition to Position"
+ },
+ {
+  "category": "Conditions",
+  "name": "Days High"
+ },
+ {
+  "category": "Conditions",
+  "name": "Days Low"
+ },
+ {
+  "category": "Conditions",
+  "name": "Has Filled Gap Down"
+ },
+ {
+  "category": "Conditions",
+  "name": "Has Filled Gap Up"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Swing Bottom Old"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Swing Gann Bottom"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Swing Gann Top"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Swing Top Old"
+ },
+ {
+  "category": "Conditions",
+  "name": "% Change From Date In Range"
+ },
+ {
+  "category": "Conditions",
+  "name": "% Change In Range"
+ },
+ {
+  "category": "Conditions",
+  "name": "Binary Operation"
+ },
+ {
+  "category": "Conditions",
+  "name": "Has Gapped Down"
+ },
+ {
+  "category": "Conditions",
+  "name": "Has Gapped Up"
+ },
+ {
+  "category": "Conditions",
+  "name": "In Downward Swing"
+ },
+ {
+  "category": "Conditions",
+  "name": "In Upward Swing"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Above Level"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Above Line"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Above Prev Swing Top"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is All Time High"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is All Time Low"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Below Level"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Below Line"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Below Prev Swing Bottom"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Cutting Level Downward"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Cutting Level Upward"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Cutting Line Down"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Cutting Line Upward"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Down By"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Equal To Line"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is In Range"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Island Reversal Bottom"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Island Reversal Top"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Moving Down"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Moving Up"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Not Equal To Line"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Not In Range"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Satisfied In"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Signal In Range"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Swing Bottom"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Swing Top"
+ },
+ {
+  "category": "Conditions",
+  "name": "Is Up By"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Composite Line"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Line Raise To"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Two Lines"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Add To Line"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Average of Lines"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Carry Backward Rate"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Carry Forward Rate"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Change From A Date Line"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Cumm Avg Of Line"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Cumm Sum Of Line"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Data with Slope"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Difference of Lines"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "High Low Date between DateTime"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "High Low Days between DateTime"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "High Low Value between DateTime"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Highest of Lines"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Level - 1 Line"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Level - 2 Lines"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Level - 6 Lines"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Line Absolute"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Line Division"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Line Multiple"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Line Performance"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Lowest of Lines"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Max Of Lines (10)"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Min Of Lines (10)"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Multiply Lines"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Pcnt Change of Line Extended"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Pcnt Change of Lines"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Percentage of Line"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Ratio of Lines"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Ratio of OHLC Lines"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Shift of Line - Old"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Shift of Line"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Subtract From Line"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Sum Of Lines (10)"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Sum Of Lines"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Value between Start & End Time"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Value From A DateTime"
+ },
+ {
+  "category": "Data Line Operations",
+  "name": "Value From A Time"
+ },
+ {
+  "category": "Data Line Statistics",
+  "name": "Highest Between Dates"
+ },
+ {
+  "category": "Data Line Statistics",
+  "name": "Line Slope"
+ },
+ {
+  "category": "Data Line Statistics",
+  "name": "Lowest Between Dates"
+ },
+ {
+  "category": "Data Line Statistics",
+  "name": "OHLC Between Dates"
+ },
+ {
+  "category": "Data Line Statistics",
+  "name": "Period Percentage Change"
+ },
+ {
+  "category": "Data Line Statistics",
+  "name": "Period Percentage Range"
+ },
+ {
+  "category": "Data Line Statistics",
+  "name": "Range Down Count"
+ },
+ {
+  "category": "Data Line Statistics",
+  "name": "Range Highest"
+ },
+ {
+  "category": "Data Line Statistics",
+  "name": "Range Lowest"
+ },
+ {
+  "category": "Data Line Statistics",
+  "name": "Range Percentage Down From Highest"
+ },
+ {
+  "category": "Data Line Statistics",
+  "name": "Range Percentage Up From Lowest"
+ },
+ {
+  "category": "Data Line Statistics",
+  "name": "Range Up Count"
+ },
+ {
+  "category": "Data Line Statistics",
+  "name": "Summation Between Dates"
+ },
+ {
+  "category": "Directional Movement",
+  "name": "Chande Range Action Verification Index"
+ },
+ {
+  "category": "Directional Movement",
+  "name": "Dir. Movement Index Rating"
+ },
+ {
+  "category": "Directional Movement",
+  "name": "Dir. Movement Index(DX)"
+ },
+ {
+  "category": "Directional Movement",
+  "name": "Dir. Movement(ADX +DI & -DI)"
+ },
+ {
+  "category": "Directional Movement",
+  "name": "Market Facilitation Index(Modified)"
+ },
+ {
+  "category": "Directional Movement",
+  "name": "Random Walk Index"
+ },
+ {
+  "category": "Directional Movement",
+  "name": "Range Indicator"
+ },
+ {
+  "category": "Directional Movement",
+  "name": "Vertical Horizontal Filter"
+ },
+ {
+  "category": "Expressions / User Formula",
+  "name": "Custom Condition"
+ },
+ {
+  "category": "Expressions / User Formula",
+  "name": "Custom Indicator"
+ },
+ {
+  "category": "Expressions / User Formula",
+  "name": "Custom Signal"
+ },
+ {
+  "category": "Futures",
+  "name": "Futures Total - Qty & OI"
+ },
+ {
+  "category": "Market Neutral",
+  "name": "Spread Line"
+ },
+ {
+  "category": "Market Neutral",
+  "name": "Futures - Premium To Spot %"
+ },
+ {
+  "category": "Market Neutral",
+  "name": "Futures - Premium To Spot"
+ },
+ {
+  "category": "Market Neutral",
+  "name": "Pair"
+ },
+ {
+  "category": "Market Neutral",
+  "name": "Ratio"
+ },
+ {
+  "category": "Market Neutral",
+  "name": "Spread"
+ },
+ {
+  "category": "Market Neutral",
+  "name": "SpreadPcnt"
+ },
+ {
+  "category": "Market Breadth",
+  "name": "Adv & Dec & Same from File"
+ },
+ {
+  "category": "Market Breadth",
+  "name": "Adv & Dec & Same Ratio from File"
+ },
+ {
+  "category": "Market Breadth",
+  "name": "Advance Decline Percentage"
+ },
+ {
+  "category": "Market Breadth",
+  "name": "Advance Decline Ratio"
+ },
+ {
+  "category": "Market Breadth",
+  "name": "Advance-Decline Difference"
+ },
+ {
+  "category": "Market Breadth",
+  "name": "Breadth Thrust"
+ },
+ {
+  "category": "Market Breadth",
+  "name": "Cummulative Adv-Dec Diff"
+ },
+ {
+  "category": "Market Breadth",
+  "name": "DII-TurnOver"
+ },
+ {
+  "category": "Market Breadth",
+  "name": "Exch Adv & Dec & Same"
+ },
+ {
+  "category": "Market Breadth",
+  "name": "FII-TurnOver"
+ },
+ {
+  "category": "Market Breadth",
+  "name": "Group Adv & Dec & Same"
+ },
+ {
+  "category": "Market Breadth",
+  "name": "Group Index"
+ },
+ {
+  "category": "Market Breadth",
+  "name": "IndexFreePrice"
+ },
+ {
+  "category": "Market Breadth",
+  "name": "IndexWeightedPrice"
+ },
+ {
+  "category": "Market Breadth",
+  "name": "Moving Adv Dec Diff."
+ },
+ {
+  "category": "Market Breadth",
+  "name": "Moving Adv To ADS Pcnt."
+ },
+ {
+  "category": "Market Breadth",
+  "name": "OI Adv & Dec & Same Intra"
+ },
+ {
+  "category": "Momentum",
+  "name": "Choppiness Index"
+ },
+ {
+  "category": "Momentum",
+  "name": "Divergence - Negative"
+ },
+ {
+  "category": "Momentum",
+  "name": "Divergence - Positive"
+ },
+ {
+  "category": "Momentum",
+  "name": "Reliable Momentum"
+ },
+ {
+  "category": "Momentum",
+  "name": "Chande Momentum Oscillator"
+ },
+ {
+  "category": "Momentum",
+  "name": "Commodity Channel Index"
+ },
+ {
+  "category": "Momentum",
+  "name": "Coppock Indicator"
+ },
+ {
+  "category": "Momentum",
+  "name": "DeMark Indicator"
+ },
+ {
+  "category": "Momentum",
+  "name": "Know Sure Thing New"
+ },
+ {
+  "category": "Momentum",
+  "name": "Know Sure Thing"
+ },
+ {
+  "category": "Momentum",
+  "name": "Net Momentum Oscillator"
+ },
+ {
+  "category": "Momentum",
+  "name": "Psychological Line"
+ },
+ {
+  "category": "Momentum",
+  "name": "Q Stick"
+ },
+ {
+  "category": "Momentum",
+  "name": "Rate of Change - Absolute"
+ },
+ {
+  "category": "Momentum",
+  "name": "Rate of Change - Percentage"
+ },
+ {
+  "category": "Momentum",
+  "name": "Rate of Change Base - Percentage"
+ },
+ {
+  "category": "Momentum",
+  "name": "Trix"
+ },
+ {
+  "category": "OBOS",
+  "name": "Candlestick Momentum Index"
+ },
+ {
+  "category": "OBOS",
+  "name": "40 60 Levels"
+ },
+ {
+  "category": "OBOS",
+  "name": "Candlestick Momentum Index Old"
+ },
+ {
+  "category": "OBOS",
+  "name": "Directional Trend Index - Old"
+ },
+ {
+  "category": "OBOS",
+  "name": "Directional Trend Index"
+ },
+ {
+  "category": "OBOS",
+  "name": "Dynamic Momentum Index"
+ },
+ {
+  "category": "OBOS",
+  "name": "Ethler Relative Vigour Index"
+ },
+ {
+  "category": "OBOS",
+  "name": "Intra Day Momentum Index"
+ },
+ {
+  "category": "OBOS",
+  "name": "Money Flow Index"
+ },
+ {
+  "category": "OBOS",
+  "name": "Projection Oscillator"
+ },
+ {
+  "category": "OBOS",
+  "name": "Quantitative Qualitative Estimation"
+ },
+ {
+  "category": "OBOS",
+  "name": "Range Expansion Index"
+ },
+ {
+  "category": "OBOS",
+  "name": "Relative Momentum Index"
+ },
+ {
+  "category": "OBOS",
+  "name": "Relative Strength Index - Cutler"
+ },
+ {
+  "category": "OBOS",
+  "name": "Relative Strength Index - Smooth"
+ },
+ {
+  "category": "OBOS",
+  "name": "Relative Strength Index New"
+ },
+ {
+  "category": "OBOS",
+  "name": "Relative Strength Index"
+ },
+ {
+  "category": "OBOS",
+  "name": "RSI - Up Down Avg"
+ },
+ {
+  "category": "OBOS",
+  "name": "Stochastics 3"
+ },
+ {
+  "category": "OBOS",
+  "name": "Stochastics Fast"
+ },
+ {
+  "category": "OBOS",
+  "name": "Stochastics RSI(DT Oscillator)"
+ },
+ {
+  "category": "OBOS",
+  "name": "Stochastics Slow"
+ },
+ {
+  "category": "OBOS",
+  "name": "Stochastics"
+ },
+ {
+  "category": "OBOS",
+  "name": "Williams Percent R"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Accelerator Oscillator"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Awesome Oscillator"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Deviation To Average"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Aroon Index"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Aroon Oscillator"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Chaikin Money Flow"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Chaikin s Oscillator"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Daily Moving Average"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Demand Index"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Detrend Price Oscillator"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Ease of Movement"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Elliot Oscillator"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Extended Detrend Price Oscillator"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Fisher Transform"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Force Index"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Line Oscillator"
+ },
+ {
+  "category": "Oscillator",
+  "name": "MACD Histogram"
+ },
+ {
+  "category": "Oscillator",
+  "name": "MACD"
+ },
+ {
+  "category": "Oscillator",
+  "name": "McClellan Oscillator"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Price Oscillator Percentage"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Price Oscillator"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Rainbow Banwidth"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Rainbow Oscillator"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Stochastic Momentum Index"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Trend Score"
+ },
+ {
+  "category": "Oscillator",
+  "name": "True Strength Index"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Ultimate Oscillator"
+ },
+ {
+  "category": "Oscillator",
+  "name": "Volume Oscillator"
+ },
+ {
+  "category": "Oscillator",
+  "name": "William Accumulation Distribution"
+ },
+ {
+  "category": "Options",
+  "name": "At The Money"
+ },
+ {
+  "category": "Options",
+  "name": "Mlot"
+ },
+ {
+  "category": "Options",
+  "name": "Option - BreakEven Adv"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Delta Adv"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Delta Hist"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Delta"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Gamma Adv"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Gamma Hist"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Gamma"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Implied Volatility Adv"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Implied Volatility"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Intrinsic Value"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Rho Adv"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Rho"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Strike Price Implied Volatility"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Theta Adv"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Theta"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Time Value Percent"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Time Value"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Value Adv"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Value(Theoretical)"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Vega Adv"
+ },
+ {
+  "category": "Options",
+  "name": "Option - Vega"
+ },
+ {
+  "category": "Options",
+  "name": "Option- BOX"
+ },
+ {
+  "category": "Options",
+  "name": "Option- By StrikePrice"
+ },
+ {
+  "category": "Options",
+  "name": "Options Total - Call & Put & ValueInLks"
+ },
+ {
+  "category": "Options",
+  "name": "Options Total - Call Qty & OI"
+ },
+ {
+  "category": "Options",
+  "name": "Options Total - Put / Call OI"
+ },
+ {
+  "category": "Options",
+  "name": "Options Total - Put Qty & OI"
+ },
+ {
+  "category": "Options",
+  "name": "Volatility Historical - Spot"
+ },
+ {
+  "category": "Price",
+  "name": "Relative Strength Comparison (Date)"
+ },
+ {
+  "category": "Price",
+  "name": "Relative Strength Comparison"
+ },
+ {
+  "category": "Price",
+  "name": "SuperTrend Buy Sell Lines"
+ },
+ {
+  "category": "Price",
+  "name": "SuperTrend Modified Extended"
+ },
+ {
+  "category": "Price",
+  "name": "Heikin Ashi Extended"
+ },
+ {
+  "category": "Price",
+  "name": "Higher Period High Low Line"
+ },
+ {
+  "category": "Price",
+  "name": "ActiveFutures - Price"
+ },
+ {
+  "category": "Price",
+  "name": "Another Period Data Line"
+ },
+ {
+  "category": "Price",
+  "name": "Another Period Data Point"
+ },
+ {
+  "category": "Price",
+  "name": "Another Period OHLC"
+ },
+ {
+  "category": "Price",
+  "name": "Another Scrip s Close"
+ },
+ {
+  "category": "Price",
+  "name": "Another Scrip s OHLC"
+ },
+ {
+  "category": "Price",
+  "name": "Average Traded Price"
+ },
+ {
+  "category": "Price",
+  "name": "Heikin Ashi"
+ },
+ {
+  "category": "Price",
+  "name": "Interest Adjusted"
+ },
+ {
+  "category": "Price",
+  "name": "Median Price"
+ },
+ {
+  "category": "Price",
+  "name": "Period OHLC"
+ },
+ {
+  "category": "Price",
+  "name": "Period Performance"
+ },
+ {
+  "category": "Price",
+  "name": "Pivot Levels"
+ },
+ {
+  "category": "Price",
+  "name": "Pivots R1 & R2 & S1 & S2"
+ },
+ {
+  "category": "Price",
+  "name": "Price Volume Rank"
+ },
+ {
+  "category": "Price",
+  "name": "Relative Moment Comparison"
+ },
+ {
+  "category": "Price",
+  "name": "Relative Strength Comparison - Old"
+ },
+ {
+  "category": "Price",
+  "name": "SuperTrend Extended"
+ },
+ {
+  "category": "Price",
+  "name": "SuperTrend Modified"
+ },
+ {
+  "category": "Price",
+  "name": "SuperTrend"
+ },
+ {
+  "category": "Price",
+  "name": "Typical Price"
+ },
+ {
+  "category": "Price",
+  "name": "Volume Weighted Avg Price"
+ },
+ {
+  "category": "Price",
+  "name": "Weighted Close"
+ },
+ {
+  "category": "Price Based",
+  "name": "Ichimoku Kinko Hyo Advance"
+ },
+ {
+  "category": "Price Based",
+  "name": "Alligator Indicator"
+ },
+ {
+  "category": "Price Based",
+  "name": "Bullish Bearish Indicator"
+ },
+ {
+  "category": "Price Based",
+  "name": "Gann High Low Activator"
+ },
+ {
+  "category": "Price Based",
+  "name": "Ichimoku Kinko Hyo Ext"
+ },
+ {
+  "category": "Price Based",
+  "name": "Ichimoku Kinko Hyo"
+ },
+ {
+  "category": "Reliable",
+  "name": "Bracket"
+ },
+ {
+  "category": "Reliable",
+  "name": "Candle Pattern Number Advance"
+ },
+ {
+  "category": "Reliable",
+  "name": "Candle Pattern Number"
+ },
+ {
+  "category": "Reliable",
+  "name": "Congestion Index"
+ },
+ {
+  "category": "Reliable",
+  "name": "Multiple Candle Patterns"
+ },
+ {
+  "category": "Reliable",
+  "name": "Trend Indicator"
+ },
+ {
+  "category": "Reversal",
+  "name": "Gann Swing Theoretical"
+ },
+ {
+  "category": "Reversal",
+  "name": "Gann Swing"
+ },
+ {
+  "category": "Reversal",
+  "name": "Swing Gann"
+ },
+ {
+  "category": "Reversal",
+  "name": "Future Price Based On Swing"
+ },
+ {
+  "category": "Reversal",
+  "name": "Swing Reversal Modified"
+ },
+ {
+  "category": "Reversal",
+  "name": "Swing Reversal-Old Modified"
+ },
+ {
+  "category": "Reversal",
+  "name": "Accumulation Swing Index"
+ },
+ {
+  "category": "Reversal",
+  "name": "Advance Swing"
+ },
+ {
+  "category": "Reversal",
+  "name": "BarinSwing"
+ },
+ {
+  "category": "Reversal",
+  "name": "Channel Slope"
+ },
+ {
+  "category": "Reversal",
+  "name": "Mass Index"
+ },
+ {
+  "category": "Reversal",
+  "name": "Prev Swing Bottom"
+ },
+ {
+  "category": "Reversal",
+  "name": "Prev Swing Top"
+ },
+ {
+  "category": "Reversal",
+  "name": "Swing Chart"
+ },
+ {
+  "category": "Reversal",
+  "name": "Swing Interpolation"
+ },
+ {
+  "category": "Reversal",
+  "name": "Swing Of Average"
+ },
+ {
+  "category": "Reversal",
+  "name": "Swing Reversal"
+ },
+ {
+  "category": "Reversal",
+  "name": "Swing Reversal-Old"
+ },
+ {
+  "category": "Reversal",
+  "name": "Zig Zag Indicator"
+ },
+ {
+  "category": "Signals",
+  "name": "Signal Randomly Generated"
+ },
+ {
+  "category": "Signals",
+  "name": "Is Multiple Candle Pattern"
+ },
+ {
+  "category": "Signals",
+  "name": "ANDing of Four Signals"
+ },
+ {
+  "category": "Signals",
+  "name": "Anding of Signals(Modified)"
+ },
+ {
+  "category": "Signals",
+  "name": "Anding of Signals"
+ },
+ {
+  "category": "Signals",
+  "name": "ANDing of Three Signals"
+ },
+ {
+  "category": "Signals",
+  "name": "Check Three Signals"
+ },
+ {
+  "category": "Signals",
+  "name": "Is Candle Pattern"
+ },
+ {
+  "category": "Signals",
+  "name": "NOT Of A Signal"
+ },
+ {
+  "category": "Signals",
+  "name": "ORing of Four Signals"
+ },
+ {
+  "category": "Signals",
+  "name": "ORing of Signals"
+ },
+ {
+  "category": "Signals",
+  "name": "ORing of Three Signals"
+ },
+ {
+  "category": "Signals",
+  "name": "Signal Last"
+ },
+ {
+  "category": "Signals",
+  "name": "Signal Re-Entry"
+ },
+ {
+  "category": "Signals",
+  "name": "Swing Signal"
+ },
+ {
+  "category": "Signals",
+  "name": "Two Signals"
+ },
+ {
+  "category": "Signals",
+  "name": "Signal Crossover"
+ },
+ {
+  "category": "Signals",
+  "name": "Signal Over Bought/Sold"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Load Data from File"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Load Signal from CSV"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Divergence - Signals"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal Stoch %D OverBought Sold"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Bracket Signal"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Is SuperTrend Bearish"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Is SuperTrend Bullish"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal 2 Averages Crossover"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal 3MA"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal Average Crossover"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal Bollinger - Fast"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal Bollinger - Slow"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal Island Reversal Theoretical"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal Island Reversal"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal Key Reversal"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal Key Reversal Major"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal MACD Crossing Avg."
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal MACD Crossing Zero"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal on Trend Index"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal Parabolic SAR"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal Range BreakOut"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal RSI Crossing Avg."
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal RSI Over Bought Sold"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal RunAway Gap"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal Stoch %K OverBought Sold"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal Stoch Crossing Avg."
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal SuperTrend Extended"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal SuperTrend Modified"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal SuperTrend"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal Swing Reversal old"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal Swing Reversal"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal Triple Bottom-Sell"
+ },
+ {
+  "category": "Signals - Ready",
+  "name": "Signal Triple Top-Buy"
+ },
+ {
+  "category": "Statistics",
+  "name": "Z Score"
+ },
+ {
+  "category": "Statistics",
+  "name": "Beta"
+ },
+ {
+  "category": "Statistics",
+  "name": "Coeff Of Variation"
+ },
+ {
+  "category": "Statistics",
+  "name": "Correlation Coeff. of change"
+ },
+ {
+  "category": "Statistics",
+  "name": "Correlation Coefficient"
+ },
+ {
+  "category": "Statistics",
+  "name": "Detrended Price"
+ },
+ {
+  "category": "Statistics",
+  "name": "Dispersion"
+ },
+ {
+  "category": "Statistics",
+  "name": "Future Price"
+ },
+ {
+  "category": "Statistics",
+  "name": "Median"
+ },
+ {
+  "category": "Statistics",
+  "name": "Mode"
+ },
+ {
+  "category": "Statistics",
+  "name": "Moving Covariance"
+ },
+ {
+  "category": "Statistics",
+  "name": "Noise%Free Rate"
+ },
+ {
+  "category": "Statistics",
+  "name": "NoiseFree Rate"
+ },
+ {
+  "category": "Statistics",
+  "name": "R Squared OLD"
+ },
+ {
+  "category": "Statistics",
+  "name": "R Squared"
+ },
+ {
+  "category": "Statistics",
+  "name": "Regression Line"
+ },
+ {
+  "category": "Statistics",
+  "name": "Regression Slope"
+ },
+ {
+  "category": "Statistics",
+  "name": "Regression"
+ },
+ {
+  "category": "Statistics",
+  "name": "Skewness"
+ },
+ {
+  "category": "Statistics",
+  "name": "Square Wave"
+ },
+ {
+  "category": "Statistics",
+  "name": "Standard Error"
+ },
+ {
+  "category": "Statistics",
+  "name": "Triangle Wave"
+ },
+ {
+  "category": "Strategy Analysis",
+  "name": "Entry Efficiency"
+ },
+ {
+  "category": "Strategy Analysis",
+  "name": "Price Randomly Generated"
+ },
+ {
+  "category": "Strategy Analysis",
+  "name": "Success Measure(Area)"
+ },
+ {
+  "category": "Strategy Analysis",
+  "name": "Success Measure(MaxFav/Adverse)"
+ },
+ {
+  "category": "Strategy Analysis",
+  "name": "Success Measure(Target)"
+ },
+ {
+  "category": "Strategy Analysis",
+  "name": "Highest Rate Between Two Signals"
+ },
+ {
+  "category": "Strategy Analysis",
+  "name": "Last Signal To Rate (2)"
+ },
+ {
+  "category": "Strategy Analysis",
+  "name": "Last Signal To Rate Advance"
+ },
+ {
+  "category": "Strategy Analysis",
+  "name": "Last Signal To Rate"
+ },
+ {
+  "category": "Strategy Analysis",
+  "name": "Lowest Rate Between Two Signals"
+ },
+ {
+  "category": "Strategy Analysis",
+  "name": "Signal - Profile"
+ },
+ {
+  "category": "Strategy Analysis",
+  "name": "Signal To Rate"
+ },
+ {
+  "category": "Strategy Analysis",
+  "name": "Volatility Trail Stop in Pcnt"
+ },
+ {
+  "category": "Strategy Analysis",
+  "name": "Volatility Trail Stop in Rs"
+ },
+ {
+  "category": "Strategy Testing",
+  "name": "Strategy - Advance Ultimate"
+ },
+ {
+  "category": "Strategy Testing",
+  "name": "Strategy - Pro"
+ },
+ {
+  "category": "Strategy Testing",
+  "name": "Strategy - Advance Modified"
+ },
+ {
+  "category": "Strategy Testing",
+  "name": "Strategy - Advance"
+ },
+ {
+  "category": "Strategy Testing",
+  "name": "Strategy - Basic Modified"
+ },
+ {
+  "category": "Strategy Testing",
+  "name": "Strategy - Basic"
+ },
+ {
+  "category": "Volatility",
+  "name": "Standard Variance"
+ },
+ {
+  "category": "Volatility",
+  "name": "Average Body Size Percentage"
+ },
+ {
+  "category": "Volatility",
+  "name": "Average Body Size"
+ },
+ {
+  "category": "Volatility",
+  "name": "Average True Range - Intra"
+ },
+ {
+  "category": "Volatility",
+  "name": "Average True Range - Percentage"
+ },
+ {
+  "category": "Volatility",
+  "name": "Average True Range"
+ },
+ {
+  "category": "Volatility",
+  "name": "Commodity Selection Index"
+ },
+ {
+  "category": "Volatility",
+  "name": "Relative Volatility Index"
+ },
+ {
+  "category": "Volatility",
+  "name": "Relative Volatility Index-Original"
+ },
+ {
+  "category": "Volatility",
+  "name": "Standard Deviation - Intra"
+ },
+ {
+  "category": "Volatility",
+  "name": "Standard Deviation Pcnt."
+ },
+ {
+  "category": "Volatility",
+  "name": "Standard Deviation"
+ },
+ {
+  "category": "Volatility",
+  "name": "Volatility - Chaikin"
+ },
+ {
+  "category": "Volatility",
+  "name": "Volatility - Historical"
+ },
+ {
+  "category": "Volatility",
+  "name": "Volatility - Notis"
+ },
+ {
+  "category": "Volatility",
+  "name": "Volatility - Wilder s"
+ },
+ {
+  "category": "Volume",
+  "name": "Buy Qty %"
+ },
+ {
+  "category": "Volume",
+  "name": "Buy Sell Average Rate"
+ },
+ {
+  "category": "Volume",
+  "name": "Buy Sell Qty"
+ },
+ {
+  "category": "Volume",
+  "name": "Buy Sell Tick Count"
+ },
+ {
+  "category": "Volume",
+  "name": "Buy Sell Value"
+ },
+ {
+  "category": "Volume",
+  "name": "Sell Qty %"
+ },
+ {
+  "category": "Volume",
+  "name": "SumActiveFutures - OI"
+ },
+ {
+  "category": "Volume",
+  "name": "Accumulation Distribution Line"
+ },
+ {
+  "category": "Volume",
+  "name": "ActiveFutures - OI"
+ },
+ {
+  "category": "Volume",
+  "name": "ActiveFutures - Volume"
+ },
+ {
+  "category": "Volume",
+  "name": "Delivery Pcnt"
+ },
+ {
+  "category": "Volume",
+  "name": "Delivery Quantity"
+ },
+ {
+  "category": "Volume",
+  "name": "Herrick Payoff Index"
+ },
+ {
+  "category": "Volume",
+  "name": "Negative Volume Index"
+ },
+ {
+  "category": "Volume",
+  "name": "OI as Qty"
+ },
+ {
+  "category": "Volume",
+  "name": "On Balance Volume"
+ },
+ {
+  "category": "Volume",
+  "name": "Open Interest"
+ },
+ {
+  "category": "Volume",
+  "name": "Positive Volume Index"
+ },
+ {
+  "category": "Volume",
+  "name": "Price Volume Trend"
+ },
+ {
+  "category": "Volume",
+  "name": "Shares Per Trade"
+ },
+ {
+  "category": "Volume",
+  "name": "Trades Line"
+ },
+ {
+  "category": "Volume",
+  "name": "Value Per Trade"
+ },
+ {
+  "category": "Volume",
+  "name": "Value Traded"
+ },
+ {
+  "category": "Volume",
+  "name": "Volume - Shares"
+ }
+]

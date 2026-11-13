@@ -1,0 +1,8 @@
+# Optional real-time broker SDKs; pins/compatibility should be checked against official releases.
+# Run: python -m pip install -r requirements-brokers.txt
+kiteconnect>=5.0
+upstox-python-sdk
+fyers-apiv3
+
+# Groww is installed separately first by scripts/setup_windows.ps1
+# For manual install: python -m pip install --upgrade growwapi>=1.5.0
