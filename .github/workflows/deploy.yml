@@ -1,10 +1,11 @@
-
-name: Deploy TradeVerse Pro
+name: Deploy TradeVerse Pro Frontend
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
 permissions:
@@ -19,40 +20,42 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
           cache-dependency-path: frontend/package-lock.json
-
-      - name: Install dependencies
-        working-directory: ./frontend
+      - name: Check public backend configuration
+        env:
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
+        shell: bash
+        run: |
+          if [[ ! "$VITE_API_BASE_URL" =~ ^https://[^/]+/?$ ]]; then
+            echo "ERROR: GitHub Actions variable VITE_API_BASE_URL must be the real HTTPS Railway backend origin."
+            echo "Do not use localhost, a placeholder, or a URL ending in /api."
+            exit 1
+          fi
+      - name: Install frontend dependencies
+        working-directory: frontend
         run: npm ci
-
-      - name: Build frontend
-        working-directory: ./frontend
+      - name: Typecheck and build frontend
+        working-directory: frontend
         env:
           VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
         run: npm run build
-
-      - name: Setup GitHub Pages
+      - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
-
-      - name: Upload frontend
+      - name: Upload frontend build
         uses: actions/upload-pages-artifact@v4
         with:
-          path: ./frontend/dist
-
-      - name: Deploy GitHub Pages
+          path: frontend/dist
+      - name: Publish GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

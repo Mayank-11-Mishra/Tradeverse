@@ -1,8 +1,9 @@
 import {useCallback,useEffect,useMemo,useState,type FormEvent,type ReactNode} from 'react'
 import {Activity,AlertTriangle,BarChart3,BookOpen,CheckCircle2,History,KeyRound,Link2,Loader2,LogOut,Play,Plus,RefreshCcw,Settings2,ShieldCheck,Square,Wallet,X,Zap} from 'lucide-react'
 import BrokerGateway from './BrokerGateway'
+import OwnerLogin from './OwnerLogin'
 import TerminalWorkspace from './TerminalWorkspace'
-import {api,post,q,token,type Account,type Candle,type Strategy,type EventRow} from './api'
+import {api,post,q,token,ownerToken,forgetOwnerToken,type Account,type Candle,type Strategy,type EventRow} from './api'
 
 type Screen='terminal'|'brokers'|'strategies'|'backtest'|'options'|'portfolio'|'activity'|'settings'
 const BROKERS=['groww','zerodha','upstox','fyers','flattrade','finvasia']
@@ -31,6 +32,7 @@ function ErrorLine({message}:{message:string}){return message?<div className="er
 export default function App(){
  const [screen,setScreen]=useState<Screen>('terminal')
  const [booting,setBooting]=useState(true)
+ const [ownerReady,setOwnerReady]=useState(!import.meta.env.PROD)
  const [accounts,setAccounts]=useState<Account[]>([]),[account,setAccount]=useState('')
  const [capabilities,setCapabilities]=useState<Record<string,any>>({})
  const [health,setHealth]=useState<Record<string,any>>({})
@@ -51,7 +53,7 @@ export default function App(){
  const done=(message:string)=>{setNotice(message);setError('')}
  const refresh=useCallback(async()=>{
   try{
-   const [a,b,h]=await Promise.all([api<Account[]>('/accounts'),api<Record<string,any>>('/brokers'),api<any>('/health')]);
+   const [a,b,h]=await Promise.all([api<Account[]>('/accounts'),api<Record<string,any>>('/brokers'),api<any>(import.meta.env.PROD?'/status':'/health')]);
    const checked=await Promise.all(a.map(async x=>{
     if(!x.connected)return x
     try{const result=await post<{verified:boolean}>('/accounts/verify',{account:x.id});return {...x,connected:result.verified}}
@@ -61,7 +63,20 @@ export default function App(){
    setAccount(old=>checked.some(x=>x.id===old&&x.connected)?old:(checked.find(x=>x.connected)?.id||''))
   }catch(e){setErrorSafe(e)}
  },[])
- useEffect(()=>{void refresh().finally(()=>setBooting(false))},[refresh])
+ useEffect(()=>{
+  if(!import.meta.env.PROD){void refresh().finally(()=>setBooting(false));return}
+  if(!ownerToken()){setBooting(false);return}
+  void api('/owner/session').then(async()=>{setOwnerReady(true);await refresh()})
+    .catch(()=>{forgetOwnerToken();setOwnerReady(false)})
+    .finally(()=>setBooting(false))
+ },[refresh])
+ useEffect(()=>{
+  const expired=()=>{forgetOwnerToken();setOwnerReady(false);setAccounts([]);setAccount('');setBooting(false)}
+  window.addEventListener('tradeverse-owner-session-expired',expired)
+  return()=>window.removeEventListener('tradeverse-owner-session-expired',expired)
+ },[])
+ const onOwnerAuthenticated=async()=>{setOwnerReady(true);await refresh()}
+
  const loadHistory=useCallback(async(fetchBroker:boolean)=>{
   if(!account||!connected)return
   setBusy(true);setError('')
@@ -152,8 +167,9 @@ export default function App(){
  <Section title="Options expiry payoff calculator"><div className="muted small">Illustrative payoff at expiry, excluding brokerage, interest, taxes, and margin; no broker orders are placed.</div><div className="leg-list">{legs.map((l,i)=><div className="leg-row" key={i}><select value={l.kind} onChange={e=>setLegs(v=>v.map((j,k)=>k===i?{...j,kind:e.target.value}:j))}>{['CE','PE','short_CE','short_PE'].map(x=><option key={x} value={x}>{x.replace('short_','Short ').replace('CE','Call').replace('PE','Put')}</option>)}</select>{(['strike','premium','qty'] as const).map(k=><input key={k} type="number" title={k} min={k==='qty'?'1':'0'} step="any" value={l[k]} onChange={e=>setLegs(v=>v.map((j,n)=>n===i?{...j,[k]:e.target.value}:j))}/>)}<Button kind="quiet" disabled={legs.length===1} onClick={()=>setLegs(v=>v.filter((_,k)=>k!==i))}><X size={15}/></Button></div>)}</div><div className="toolbar-inline"><Button onClick={()=>setLegs(v=>[...v,{kind:'CE',strike:'25000',premium:'100',qty:'1'}])} disabled={legs.length>=16}><Plus size={15}/> Add leg</Button><Button kind="primary" onClick={()=>void calcPayoff()}>Calculate payoff</Button></div>{payoff&&<><div className="metric-grid">{Object.entries(payoff.summary||{}).map(([k,v])=><Stat label={k.replaceAll('_',' ')} key={k} value={typeof v==='number'?fmt(v):String(v)}/>)}</div><div className="muted small">Payoff samples: {Array.isArray(payoff.curve)?payoff.curve.length:'—'}</div></>}</Section></div>
  const renderPortfolio=()=> <div className="backtest-layout"><div className="toolbar-inline"><Button kind="primary" onClick={()=>void loadPortfolio()} disabled={busy||!connected}><RefreshCcw size={15}/> Refresh selected account</Button><span className="muted small">{account||'Connect a broker to view your account'}</span></div>{['paper','orders','tradebook','positions','holdings','funds'].map(k=><Section key={k} title={k==='paper'?'Paper account':k.charAt(0).toUpperCase()+k.slice(1)}>{portfolio[k]?.error?<ErrorLine message={portfolio[k].error}/>:Array.isArray(portfolio[k])?table(portfolio[k]):portfolio[k]?<pre className="json-panel">{JSON.stringify(portfolio[k],null,2).slice(0,14000)}</pre>:<div className="empty">Refresh to fetch {k}.</div>}</Section>)}</div>
  const renderActivity=()=> <Section title="Local audit events" action={<Button onClick={()=>void loadEvents()}><RefreshCcw size={15}/> Refresh events</Button>}>{events.length?table(events.map(e=>({...e,payload:JSON.stringify(e.payload)}))):<div className="empty">No events loaded. Click Refresh events.</div>}</Section>
- const renderSettings=()=> <div className="two-cols"><Section title="Local application security"><div className="form-stack"><Field label="Optional local API token"><input type="password" value={savedToken} onChange={e=>setSavedToken(e.target.value)} placeholder="Matches APP_LOCAL_TOKEN on backend"/></Field><Button onClick={()=>{localStorage.setItem('personal_algo_app_token',savedToken);void refresh();done('Local API token saved in this browser')}}><KeyRound size={15}/> Save local token</Button><p className="muted tiny">The backend listens on 127.0.0.1. Do not expose port 8000 publicly. Access tokens stay only in backend process memory; app token is stored in this browser.</p></div></Section><Section title="Trading controls"><div className="form-stack"><div className="risk-panel"><ShieldCheck size={20}/><span>Live order execution</span><strong>{health.live_trading_enabled?'ENABLED':'DISABLED'}</strong></div><p className="muted small">To enable live trading, set ALLOW_LIVE_TRADING=yes on the backend, verify relevant API entitlements and compliance, then explicitly confirm the action below.</p><Button kind="danger" onClick={async()=>{if(window.prompt('Type ENABLE LIVE TRADING')!=='ENABLE LIVE TRADING')return;try{await post('/live/enable',{confirm:'ENABLE LIVE TRADING'});await refresh();done('Live mode enabled')}catch(e){setErrorSafe(e)}}}>Enable live trading</Button><Button onClick={async()=>{try{await post('/live/disable',{});await refresh();done('Live trading disabled; kill switch engaged')}catch(e){setErrorSafe(e)}}}><ShieldCheck size={15}/> Disable live + kill switch</Button><Button onClick={async()=>{if(window.prompt('Type RELEASE KILL SWITCH')!=='RELEASE KILL SWITCH')return;try{await post('/live/release-kill-switch',{confirm:'RELEASE KILL SWITCH'});done('Global kill switch released; live remains disabled unless separately enabled')}catch(e){setErrorSafe(e)}}}>Release global kill switch</Button></div></Section></div>
+ const renderSettings=()=> <div className="two-cols"><Section title="Local application security"><div className="form-stack">{import.meta.env.PROD?<><p>Signed in to the private owner backend.</p><Button onClick={()=>{void api('/owner/logout',{method:'POST'}).catch(()=>{}).finally(()=>{forgetOwnerToken();setOwnerReady(false);setAccounts([]);setAccount('')})}}><LogOut size={15}/> Sign out of TradeVerse</Button></>:<><Field label="Optional local API token"><input type="password" value={savedToken} onChange={e=>setSavedToken(e.target.value)} placeholder="Matches APP_LOCAL_TOKEN on backend"/></Field><Button onClick={()=>{localStorage.setItem('personal_algo_app_token',savedToken);void refresh();done('Local API token saved in this browser')}}><KeyRound size={15}/> Save local token</Button><p className="muted tiny">The backend listens on 127.0.0.1. Do not expose port 8000 publicly. Access tokens stay only in backend process memory; app token is stored in this browser.</p></>}</div></Section><Section title="Trading controls"><div className="form-stack"><div className="risk-panel"><ShieldCheck size={20}/><span>Live order execution</span><strong>{health.live_trading_enabled?'ENABLED':'DISABLED'}</strong></div><p className="muted small">To enable live trading, set ALLOW_LIVE_TRADING=yes on the backend, verify relevant API entitlements and compliance, then explicitly confirm the action below.</p><Button kind="danger" onClick={async()=>{if(window.prompt('Type ENABLE LIVE TRADING')!=='ENABLE LIVE TRADING')return;try{await post('/live/enable',{confirm:'ENABLE LIVE TRADING'});await refresh();done('Live mode enabled')}catch(e){setErrorSafe(e)}}}>Enable live trading</Button><Button onClick={async()=>{try{await post('/live/disable',{});await refresh();done('Live trading disabled; kill switch engaged')}catch(e){setErrorSafe(e)}}}><ShieldCheck size={15}/> Disable live + kill switch</Button><Button onClick={async()=>{if(window.prompt('Type RELEASE KILL SWITCH')!=='RELEASE KILL SWITCH')return;try{await post('/live/release-kill-switch',{confirm:'RELEASE KILL SWITCH'});done('Global kill switch released; live remains disabled unless separately enabled')}catch(e){setErrorSafe(e)}}}>Release global kill switch</Button></div></Section></div>
  if(booting)return <div className="tv-boot"><Loader2 size={32} className="spin"/><b>TradeVerse Pro</b><span>Checking for an authenticated broker session…</span></div>
+ if(import.meta.env.PROD&&!ownerReady)return <OwnerLogin onAuthenticated={onOwnerAuthenticated}/>
  if(!connected)return <BrokerGateway onConnected={async id=>{await refresh();setAccount(id);setScreen('terminal');done('Broker authenticated. Loading market instruments and history…')}}/>
  const legacyPage=screen==='terminal'?undefined:<div className="tv-page"><div className="tv-page-hero"><div><span className="eyebrow">TRADEVERSE PRO · {selected?.broker.toUpperCase()} {selected?.read_only?'DATA-ONLY':'CONNECTED'}</span><h1>{MENU.find(m=>m.id===screen)?.label}</h1><p>Account: {selected?.display_name||selected?.user_id||account} · Data from your authenticated broker</p></div><button className="btn secondary" onClick={()=>setScreen('terminal')}><BarChart3 size={15}/> Back to workspace</button></div><div className="tv-page-content">{screen==='brokers'?renderBrokers():screen==='strategies'?renderStrategies():screen==='backtest'?renderBacktest():screen==='options'?renderOptions():screen==='portfolio'?renderPortfolio():screen==='activity'?renderActivity():renderSettings()}</div></div>
  return <>

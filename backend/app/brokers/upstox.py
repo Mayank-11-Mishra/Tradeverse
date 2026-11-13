@@ -3,6 +3,7 @@ Docs: https://upstox.com/developer/api-documentation/
 """
 from __future__ import annotations
 from datetime import datetime,timezone
+import os
 import re
 from urllib.parse import quote
 from .base import *
@@ -66,7 +67,12 @@ class UpstoxBroker(HTTPBroker):
         return super().token_for(key,allow_symbol=allow_symbol)
     def _headers(self):return {'Accept':'application/json','Authorization':f'Bearer {self.access_token}'}
     async def _call(self,method,path,**kw):
-        r=await self._http(method,path,headers=self._headers(),**kw)
+        headers=self._headers()
+        # Upstox Algo Trading Apps may require the registered Algo Name in
+        # X-Algo-Name on order operations; never invent a broker-issued name.
+        if kw.get('order') and os.getenv('UPSTOX_ALGO_NAME','').strip():
+            headers['X-Algo-Name']=os.environ['UPSTOX_ALGO_NAME'].strip()
+        r=await self._http(method,path,headers=headers,**kw)
         return r.get('data',r) if isinstance(r,dict) else r
     async def authenticate(self,credentials):
         self.read_only=str(credentials.get('token_type','oauth')).lower()=='analytics'

@@ -1,4 +1,4 @@
-import {ROOT,token,type Candle} from './api'
+import {ROOT,token,api,type Candle} from './api'
 export type InstrumentId={exchange:string,symbol:string,segment:string}
 export type FeedState='connecting'|'connected'|'reconnecting'|'disconnected'|'stale'
 export type Quote={ltp:number,previous?:number,change?:number,pct?:number,bid?:number,ask?:number,ts:string,source?:'live'|'snapshot'}
@@ -36,9 +36,21 @@ export class MarketFeedClient{
  private connect(){
   if(this.stopped||this.ws||!this.listeners.size)return
   this.publish(this.retry?'reconnecting':'connecting')
-  const address=ROOT.replace(/^http/,'ws')+`/ws/quotes/${encodeURIComponent(this.account)}?token=${encodeURIComponent(token())}`
+  const address=ROOT.replace(/^http/,'ws')+`/ws/quotes/${encodeURIComponent(this.account)}`+
+    (import.meta.env.DEV ? `?token=${encodeURIComponent(token())}` : '')
+  if(import.meta.env.PROD){
+   void api<{ticket:string}>('/owner/ws-ticket',{method:'POST',body:'{}'}).then(({ticket})=>{
+    if(this.stopped||this.ws||!this.listeners.size)return
+    this.openSocket(address,['tradeverse',`ticket.${ticket}`])
+   }).catch(()=>this.scheduleReconnect())
+   return
+  }
+  this.openSocket(address)
+ }
+ private openSocket(address:string,protocols?:string[]){
+  if(this.stopped||this.ws)return
   let socket:WebSocket
-  try{socket=new WebSocket(address)}catch{this.scheduleReconnect();return}
+  try{socket=new WebSocket(address,protocols)}catch{this.scheduleReconnect();return}
   this.ws=socket
   socket.onopen=()=>{
    this.retry=0;this.lastMessage=Date.now();this.publish('connecting');this.updateSubscriptions()

@@ -8,17 +8,19 @@ import hashlib
 import json
 import re
 import logging
+import os
 from urllib.parse import urlencode
 import httpx
 from .base import AuthError
 
-CALLBACK_ROOT='http://127.0.0.1:8000/api/auth/callback'
+def callback_root() -> str:
+    return os.getenv('PUBLIC_API_URL','http://127.0.0.1:8000').rstrip('/') + '/api/auth/callback'
 LOG=logging.getLogger('tradeverse.oauth')
 
 def authorization_url(broker:str,credentials:dict,state:str)->str:
     if broker=='fyers':
         return 'https://api-t1.fyers.in/api/v3/generate-authcode?'+urlencode({
-            'client_id':credentials['client_id'],'redirect_uri':f'{CALLBACK_ROOT}/fyers',
+            'client_id':credentials['client_id'],'redirect_uri':f'{callback_root()}/fyers',
             'response_type':'code','state':state})
     if broker=='finvasia':
         return 'https://api.shoonya.com/OAuthlogin/authorize/oauth?'+urlencode({'client_id':credentials['client_id']})

@@ -12,7 +12,7 @@ import pandas as pd
 from fastapi import FastAPI,HTTPException,WebSocket,WebSocketDisconnect,Body,Query,Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse,JSONResponse
 from urllib.parse import urlparse
 from app.brokers.oauth import authorization_url, exchange_code
 from pydantic import BaseModel,Field,field_validator
@@ -22,6 +22,7 @@ from app.brokers.base import (Capability,InstrumentKey,OrderRequest,BrokerError,
 from app.brokers.common import dt
 from app.database import store
 from app import core_vault
+from app.api import owner_security as OWNER
 from app.market_data.hub import MarketHub
 from app.market_data.history import fetch_history,sync_history
 from app.market_data.backfill import BackfillManager
@@ -115,6 +116,7 @@ class StrategyIn(BaseModel):
 
 @asynccontextmanager
 async def lifespan(app):
+    OWNER.validate_production_config()
     store.init_db()
     # Restore only sessions that can be verified against the broker. Never restore strategy execution.
     for account,entry in core_vault.read_all().items():
@@ -140,24 +142,74 @@ async def lifespan(app):
     for session in list(SESSIONS.values()):
         with __import__('contextlib').suppress(Exception):await session.close()
 
-app=FastAPI(title='Personal Algo Terminal',version='0.2.0',lifespan=lifespan)
-app.add_middleware(CORSMiddleware,allow_origins=['http://127.0.0.1:5173','http://localhost:5173'],allow_credentials=False,
-                   allow_methods=['GET','POST','PUT','DELETE'],allow_headers=['Content-Type','X-Local-Token'])
+app=FastAPI(title='TradeVerse Pro API',version='0.3.0',lifespan=lifespan,
+            docs_url=None if OWNER.production() else '/docs',
+            redoc_url=None if OWNER.production() else '/redoc',
+            openapi_url=None if OWNER.production() else '/openapi.json')
+app.add_middleware(CORSMiddleware,allow_origins=OWNER.allowed_frontend_origins(),allow_credentials=False,
+                   allow_methods=['GET','POST','PUT','DELETE','OPTIONS'],
+                   allow_headers=['Content-Type','Authorization','X-Local-Token'])
+
+class OwnerLoginIn(BaseModel):
+    password:str=Field(min_length=1,max_length=512)
+
+@app.post('/api/owner/login')
+def owner_login(body:OwnerLoginIn,request:Request):
+    if not OWNER.production():
+        raise HTTPException(404,'Owner cloud login is only enabled in production')
+    OWNER.check_login_rate(request.client.host if request.client else 'unknown')
+    if not OWNER.verify_password(body.password,os.environ['TRADEVERSE_OWNER_PASSWORD_HASH']):
+        raise HTTPException(401,'Invalid owner password')
+    value,seconds=OWNER.issue_owner_token()
+    return {'access_token':value,'token_type':'bearer','expires_in':seconds}
+
+@app.post('/api/owner/logout')
+def owner_logout(request:Request):
+    OWNER.revoke_owner_token(OWNER.bearer_from_header(request.headers.get('authorization','')))
+    return {'signed_out':True}
+
+@app.post('/api/owner/ws-ticket')
+def owner_ws_ticket(request:Request):
+    owner=OWNER.verify_owner_token(OWNER.bearer_from_header(request.headers.get('authorization','')))
+    return {'ticket':OWNER.issue_ws_ticket(owner)}
+
+@app.get('/api/status')
+def application_status():
+    return {'ok':True,'connected_accounts':len(SESSIONS),'live_trading_enabled':RISK.limits.live_trading_enabled,
+            'database':'sqlite' if store.URL.startswith('sqlite') else 'postgresql','version':'0.3.0'}
+
+@app.get('/api/owner/session')
+def owner_session():
+    # This route is guarded by middleware in production.
+    return {'authenticated':True,'owner':'local_owner'}
 
 @app.middleware('http')
-async def local_guard(request,call_next):
-    # Loopback binding is the primary defense; configurable token for other local processes.
-    if request.url.path.startswith('/api/') and not request.url.path.startswith('/api/auth/callback/') and APP_TOKEN and request.headers.get('x-local-token')!=APP_TOKEN:
-        from fastapi.responses import JSONResponse
+async def api_auth_guard(request,call_next):
+    path=request.url.path
+    if request.method=='OPTIONS':
+        return await call_next(request)
+    if OWNER.production() and path.startswith('/api/') and path not in ('/api/health','/api/owner/login') and not path.startswith('/api/auth/callback/'):
+        try:
+            OWNER.verify_owner_token(OWNER.bearer_from_header(request.headers.get('authorization','')))
+        except HTTPException as exc:
+            return JSONResponse({'detail':exc.detail},status_code=exc.status_code,headers={'Cache-Control':'no-store'})
+    elif not OWNER.production() and path.startswith('/api/') and not path.startswith('/api/auth/callback/') and APP_TOKEN and request.headers.get('x-local-token')!=APP_TOKEN:
         return JSONResponse({'detail':'Invalid local application token'},status_code=401)
-    return await call_next(request)
+    response=await call_next(request)
+    if path.startswith('/api/'):
+        response.headers['Cache-Control']='no-store'
+    if OWNER.production():
+        response.headers['X-Content-Type-Options']='nosniff'
+        response.headers['Strict-Transport-Security']='max-age=31536000; includeSubDomains'
+    return response
 
 @app.get('/api/health')
 def health():
+    if OWNER.production():return {'ok':True,'version':'0.3.0'}
     return {'ok':True,'local_only':True,'connected_accounts':len(SESSIONS),
             'live_trading_enabled':RISK.limits.live_trading_enabled,
             'database':'sqlite' if store.URL.startswith('sqlite') else 'postgresql',
-            'version':'0.2.0'}
+            'version':'0.3.0'}
 
 
 @app.get('/api/preferences/{kind}')
@@ -229,8 +281,8 @@ class OAuthStartIn(BaseModel):
 @app.post('/api/auth/start')
 async def oauth_start(request:OAuthStartIn, raw:Request):
     if request.broker not in ('finvasia','fyers','flattrade'):raise HTTPException(422,'Unsupported OAuth broker')
-    origin=raw.headers.get('origin','http://127.0.0.1:5173')
-    if origin not in ('http://127.0.0.1:5173','http://localhost:5173'):
+    origin=raw.headers.get('origin','' if OWNER.production() else 'http://127.0.0.1:5173')
+    if origin not in OWNER.allowed_frontend_origins():
         raise HTTPException(403,'Invalid frontend origin')
     fields={'finvasia':('client_id','secret_key','user_id'),'fyers':('client_id','api_secret'),
             'flattrade':('api_key','api_secret','user_id')}[request.broker]
@@ -247,7 +299,7 @@ async def oauth_start(request:OAuthStartIn, raw:Request):
         'credentials':request.credentials.copy(),'origin':origin,'expires':now+180}
     LOG.info('OAuth authorization started broker=%s',request.broker)
     return {'authorization_url':authorization_url(request.broker,request.credentials,state),
-            'redirect_uri':f'http://127.0.0.1:8000/api/auth/callback/{request.broker}'}
+            'redirect_uri':f'{OWNER.public_api_url()}/api/auth/callback/{request.broker}'}
 
 def _oauth_popup(origin:str,success:bool,account:str='',message:str='')->HTMLResponse:
     event={'source':'tradeverse-oauth','ok':success,'account':account,'error':message}
@@ -258,8 +310,10 @@ def _oauth_popup(origin:str,success:bool,account:str='',message:str='')->HTMLRes
 @app.get('/api/auth/callback/{broker}',response_class=HTMLResponse)
 async def oauth_callback(broker:str,request:Request,code:str='',auth_code:str='',request_code:str='',state:str=''):
     if broker not in ('finvasia','fyers','flattrade'):raise HTTPException(404,'Unsupported broker')
-    if request.client and request.client.host not in ('127.0.0.1','::1','localhost','testclient'):
+    if not OWNER.production() and request.client and request.client.host not in ('127.0.0.1','::1','localhost','testclient'):
         raise HTTPException(403,'Callback must be received locally')
+    if OWNER.production() and broker=='fyers' and not state:
+        raise HTTPException(400,'Missing FYERS OAuth state; restart broker login')
     if state:pending=OAUTH_PENDING.pop(state,None)
     else:
         matches=[(k,v) for k,v in OAUTH_PENDING.items() if v['broker']==broker]
@@ -730,17 +784,18 @@ def events(limit:int=100):
 
 @app.websocket('/ws/quotes/{account:path}')
 async def ws_quotes(websocket:WebSocket,account:str):
-    if websocket.headers.get('origin') not in (None,'http://localhost:5173','http://127.0.0.1:5173'):
+    if websocket.headers.get('origin') not in (OWNER.allowed_frontend_origins() if OWNER.production() else [None,*OWNER.allowed_frontend_origins()]):
         await websocket.close(code=1008);return
-    if APP_TOKEN and websocket.query_params.get('token')!=APP_TOKEN:
+    allowed,owner_exp=OWNER.validate_ws_credentials(websocket.headers,websocket.query_params)
+    if not allowed or account not in SESSIONS:
         await websocket.close(code=1008);return
-    if account not in SESSIONS:
-        await websocket.close(code=1008);return
-    await websocket.accept()
+    await websocket.accept(subprotocol='tradeverse' if OWNER.production() else None)
     subscriptions={}
     await websocket.send_json({'event':'status','state':'connecting','detail':'Local stream ready; waiting for broker subscriptions'})
     try:
         while True:
+            if owner_exp is not None and time.time() >= owner_exp:
+                await websocket.close(code=1008);return
             tasks={'receive':asyncio.create_task(websocket.receive_json())}
             for ident,(_,queue) in subscriptions.items():
                 tasks[ident]=asyncio.create_task(queue.get())
@@ -789,20 +844,24 @@ async def ws_quotes(websocket:WebSocket,account:str):
 @app.websocket('/ws/market/{account:path}')
 async def ws_market(websocket:WebSocket,account:str,exchange:str,symbol:str,segment:str='EQ'):
     origin=websocket.headers.get('origin','')
-    if origin and origin not in ('http://localhost:5173','http://127.0.0.1:5173'):
+    if origin and origin not in OWNER.allowed_frontend_origins() or (OWNER.production() and not origin):
         await websocket.close(code=1008);return
-    if APP_TOKEN and websocket.query_params.get('token')!=APP_TOKEN:
+    allowed,owner_exp=OWNER.validate_ws_credentials(websocket.headers,websocket.query_params)
+    if not allowed or account not in SESSIONS:
         await websocket.close(code=1008);return
-    if account not in SESSIONS:
-        await websocket.close(code=1008);return
-    await websocket.accept()
+    await websocket.accept(subprotocol='tradeverse' if OWNER.production() else None)
     key=_key(exchange,symbol,segment)
     try:queue=await HUB.listen(account,key)
     except Exception:
         await websocket.close(code=1011);return
     try:
         while True:
-            message=await queue.get()
+            if owner_exp is not None and time.time() >= owner_exp:
+                await websocket.close(code=1008);return
+            try:
+                message=await asyncio.wait_for(queue.get(),timeout=12)
+            except asyncio.TimeoutError:
+                continue
             await websocket.send_json(_to_json(message))
     except (WebSocketDisconnect,asyncio.CancelledError):pass
     finally:await HUB.unlisten(account,key,queue)

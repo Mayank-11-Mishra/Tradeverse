@@ -13,8 +13,35 @@ from app.brokers.common import dt
 
 ROOT=Path(__file__).resolve().parents[3]
 DATA=ROOT/'data';DATA.mkdir(exist_ok=True)
-URL=os.environ.get('DATABASE_URL',f'sqlite:///{(DATA/"trading.db").as_posix()}')
-engine=create_engine(URL,connect_args={'check_same_thread':False} if URL.startswith('sqlite:') else {},pool_pre_ping=True)
+
+URL = os.environ.get(
+    "DATABASE_URL",
+    f'sqlite:///{(DATA/"trading.db").as_posix()}'
+)
+
+# Convert Railway PostgreSQL URL to SQLAlchemy psycopg format
+if URL.startswith("postgres://"):
+    URL = URL.replace(
+        "postgres://",
+        "postgresql+psycopg://",
+        1
+    )
+elif URL.startswith("postgresql://"):
+    URL = URL.replace(
+        "postgresql://",
+        "postgresql+psycopg://",
+        1
+    )
+
+# Create database connection
+engine = create_engine(
+    URL,
+    connect_args={"check_same_thread": False}
+    if URL.startswith("sqlite:")
+    else {},
+    pool_pre_ping=True
+)
+
 Session=sessionmaker(bind=engine,expire_on_commit=False)
 Base=declarative_base()
 

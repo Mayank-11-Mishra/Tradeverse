@@ -1,3 +1,5 @@
+> **Website deployment:** This project now includes a production owner-login security gate, Railway FastAPI configuration, GitHub Pages workflow, and cloud OAuth callback support. Read [DEPLOY-RAILWAY-GITHUB-PAGES.md](docs/DEPLOY-RAILWAY-GITHUB-PAGES.md) before publishing. The older local-only guidance below still applies when running on Windows. Keep live order execution disabled until your broker's static-IP, tagging and order safeguards have been verified.
+
 # TradeVerse Pro — Broker-First Personal Trading Terminal
 
 **Local Windows development build (2026-11-12). Broker integrations are NOT live-account verified. Do NOT trade real money before you validate every integration and risk control.**
